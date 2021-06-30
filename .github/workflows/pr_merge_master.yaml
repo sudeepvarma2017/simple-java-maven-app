@@ -23,6 +23,5 @@ jobs:
           title: '[Example] Add report file'
           labels: report, automated pr
           assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
-          reviewers: Preetish.Madalia@aa.com
-          milestone: 1
-          branch: 'feature/azure2021'
+          reviewers: Preetish.Madalia@aa.com        
+          branch: 'pr_into_branch_dest'
