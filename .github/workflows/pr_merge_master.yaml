@@ -20,7 +20,8 @@ jobs:
        with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "merge into master[AMPS]"
-          committer: GitHub <noreply@github.com>          
+          committer: GitHub <noreply@github.com> 
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           body: | 
             New report
             - Contains *today's* date
