@@ -8,7 +8,7 @@ jobs:
     steps:
      - uses: actions/checkout@v2
        with:
-          ref: pr_into_branch_dest
+          ref: RC12_Under_Devlopment
      - name: Create report file
        run: date +%s > report.txt
      - name: Reset promotion branch
