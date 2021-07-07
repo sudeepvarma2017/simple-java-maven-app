@@ -18,8 +18,8 @@ jobs:
      - name: Set output variables
        id: vars
        run: |
-           echo ::set-output name=pr_title::"[Test] Merge Release Branch into Master $(date +%d-%m-%Y)"
-           echo ::set-output name=pr_body::"This PR was auto-generated on $(date +%d-%m-%Y)by [create-pull-request]" 
+           echo ::set-output name=pr_title::"[Test] Merge Release Branch into Master $(date +%d-%m-%Y) "
+           echo ::set-output name=pr_body::"This PR was auto-generated on $(date +%d-%m-%Y) " 
            echo ::set-output name=pr_commit_message::GitHub <noreply@github.com>
      - name: Create Pull Request
        uses: peter-evans/create-pull-request@v3
