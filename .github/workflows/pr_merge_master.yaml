@@ -26,11 +26,11 @@ jobs:
        uses: peter-evans/create-pull-request@v3
        with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: pr_commit_message
+          commit-message:  ${{ steps.vars.outputs.pr_commit_message }}
           committer: GitHub <noreply@github.com> 
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          body: pr_body
-          title: pr_title
+          body: ${{ steps.vars.outputs.pr_body }}
+          title: ${{ steps.vars.outputs.pr_title }}
           labels: automated pr
           assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
           reviewers: Preetish.Madalia@aa.com        
