@@ -3,12 +3,23 @@ on:
     branches:
       - 'master'
 jobs:
-   createPullRequest:
+ pullRequestToBranches:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      run: echo "::set-output name=matrix::{\"include\":[{\"branch\":\"RC12_1_Under_Development\"},{\"branch\":\"RC12_2_Under_Development\"}]}"
+   
+ createPullRequest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.pullRequestToBranches.outputs.matrix)}}
     steps:
      - uses: actions/checkout@v2
        with:
-          ref: RC12_Under_Devlopment
+          ref: ${{ matrix.branch }}
+     - run: echo ${{ matrix.branch }}     
      - name: Create report file
        run: date +%s > report.txt
      - name: Reset promotion branch
