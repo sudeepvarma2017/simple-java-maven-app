@@ -3,37 +3,42 @@ on:
     branches:
       - 'master'
 jobs:
-   createPullRequest:
+ pullRequestToReleaseBranches:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [RC12_1_Under_Development, RC12_2_Under_Development]
     steps:
-     - uses: actions/checkout@v2
-       with:
-          ref: RC12_Under_Devlopment
-     - name: Create report file
-       run: date +%s > report.txt
-     - name: Reset promotion branch
-       run: |
-          git fetch origin master:master
-          git reset --hard master
-     - name: Set output variables
-       id: vars
-       run: |
-          echo "::set-output name=pr_title::Pr into Release Branch from Master after the release $(date +%d-%m-%Y)"
-          echo "::set-output name=pr_body::This PR was auto-generated on $(date +%d-%m-%Y) \
-            by [create-pull-request](https://github.com/AAInternal/AMPS-API)."     
-          echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"
-     - name: Create Pull Request
-       uses: peter-evans/create-pull-request@v3
-       with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message:  ${{ steps.vars.outputs.pr_commit_message }}
-          committer: GitHub <noreply@github.com> 
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          body: ${{ steps.vars.outputs.pr_body }}
-          title: ${{ steps.vars.outputs.pr_title }}
-          labels: automated pr
-          assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
-          reviewers: Preetish.Madalia@aa.com        
-          branch: 'master_promotion'
+      - uses: actions/checkout@v2
+        with:
+          ref: '${{ matrix.branch }}'    
+
+      - name: Create report file
+        run: date +%s > report.txt
+        
+      - name: Reset promotion branch
+        run: |
+            git fetch origin master:master
+            git reset --hard master
+      - name: Set output variables
+        id: vars
+        run: |
+              echo "::set-output name=pr_title::Pr into Release Branch from Master after the release $(date +%d-%m-%Y)"
+              echo "::set-output name=pr_body::This PR was auto-generated on $(date +%d-%m-%Y) \
+                by [create-pull-request](https://github.com/AAInternal/AMPS-API)."     
+              echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            commit-message:  ${{ steps.vars.outputs.pr_commit_message }}
+            committer: GitHub <noreply@github.com> 
+            author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+            body: ${{ steps.vars.outputs.pr_body }}
+            title: ${{ steps.vars.outputs.pr_title }}
+            labels: automated pr
+            assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
+            reviewers: Preetish.Madalia@aa.com        
+            branch: 'master_promotion_${{ matrix.branch }}'
           
     
