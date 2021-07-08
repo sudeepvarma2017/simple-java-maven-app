@@ -8,10 +8,12 @@ jobs:
     strategy:
       matrix:
         branch: [RC12_1_Under_Development, RC12_2_Under_Development]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '${{ matrix.branch }}'    
  createPullRequest:
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.pullRequestToBranches.outputs.matrix)}}
     steps:
      - uses: actions/checkout@v2
        with:
