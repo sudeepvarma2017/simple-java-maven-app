@@ -38,6 +38,6 @@ jobs:
             labels: automated pr
             assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
             reviewers: Preetish.Madalia@aa.com        
-            branch: 'master_promotion'
+            branch: '${{ matrix.branch }} master_promotion'
           
     
