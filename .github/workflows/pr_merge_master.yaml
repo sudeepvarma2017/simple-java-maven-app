@@ -5,12 +5,9 @@ on:
 jobs:
  pullRequestToBranches:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-    - id: set-matrix
-      run: echo "::set-output name=matrix::{\"include\":[{\"branch\":\"RC12_1_Under_Development\"},{\"branch\":\"RC12_2_Under_Development\"}]}"
-   
+    strategy:
+      matrix:
+        branch: [RC12_1_Under_Development, RC12_2_Under_Development]
  createPullRequest:
     runs-on: ubuntu-latest
     strategy:
