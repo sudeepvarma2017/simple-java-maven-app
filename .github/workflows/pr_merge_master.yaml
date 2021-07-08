@@ -18,13 +18,13 @@ jobs:
      - uses: actions/checkout@v2
        with:
           ref: ${{ matrix.branch }}
-     - run: echo ${{ matrix.branch }}     
+      
      - name: Create report file
        run: date +%s > report.txt
-     - name: Reset promotion branch
-       run: |
-          git fetch origin master:master
-          git reset --hard master
+#      - name: Reset promotion branch
+#        run: |
+#           git fetch origin master:master
+#           git reset --hard master
      - name: Set output variables
        id: vars
        run: |
