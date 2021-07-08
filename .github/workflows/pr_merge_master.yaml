@@ -15,10 +15,11 @@ jobs:
 
       - name: Create report file
         run: date +%s > report.txt
-    #      - name: Reset promotion branch
-    #        run: |
-    #           git fetch origin master:master
-    #           git reset --hard master
+        
+      - name: Reset promotion branch
+        run: |
+            git fetch origin master:master
+            git reset --hard master
       - name: Set output variables
         id: vars
         run: |
