@@ -15,4 +15,4 @@ contains a shell script with commands that are executed when Jenkins processes
 the "Deliver" stage of your Pipeline.
 
 
-Merge into Master Auto PR Changes - Allready Released Branch Testing - Test Again - Testing Matrix strategy 
+Merge into Master Auto PR Changes - Allready Released Branch Testing - Test Again - Testing Matrix strategy Test Results
