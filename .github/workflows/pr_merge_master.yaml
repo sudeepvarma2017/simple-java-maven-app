@@ -17,7 +17,7 @@ jobs:
         run: |
           RELEASE_FEATURE_BRANCHES=$(git branch -a --list '*RC12*')
           MATRIX_PROJECTS_JSON="["
-          echo "${RELEASE_FEATURE_BRANCHES}"
+          echo ${RELEASE_FEATURE_BRANCHES}
           
  pullRequestToReleaseBranches:
     runs-on: ubuntu-latest
