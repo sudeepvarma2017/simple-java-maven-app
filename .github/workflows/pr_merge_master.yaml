@@ -13,8 +13,8 @@ jobs:
       - name: generate matrix
         id: generate-matrix  
         run: |
-          for br in `git branch -a --list '*RC*'`; do
-           echo $br           
+          for br in (git branch -a --list '*RC*'); do
+           echo 'All release branches under development $br'           
           done
           RELEASE_FEATURE_BRANCHES=$(git branch -a --list '*RC*')
           MATRIX_RELEASE_BRANCHES_JSON="["
