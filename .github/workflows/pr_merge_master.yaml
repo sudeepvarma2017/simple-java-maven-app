@@ -15,8 +15,8 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          RELEASE_BRANCHES=`git branch -a --list '*RC_*_Under*'`;     
-          FEATURE_BRANCHES=`git branch -a --list '*feature/azure*`;
+          RELEASE_BRANCHES=`git branch -a --list '*RC*'`     
+          FEATURE_BRANCHES=`git branch -a --list '*feature/azure*`
           RELEASE_FEATURE_BRANCHES = ( "${RELEASE_BRANCHES[@]}" "${FEATURE_BRANCHES[@]}" );
           for branch in $RELEASE_FEATURE_BRANCHES; 
           do
