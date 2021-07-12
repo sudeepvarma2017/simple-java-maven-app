@@ -19,17 +19,25 @@ jobs:
           for branch in $RELEASE_FEATURE_BRANCHES; do
             echo 'Current Development Release branches are - ' $branch
           done    
-          echo "::set-output name=matrix::${RELEASE_FEATURE_BRANCHES}"
+          MATRIX_RELEASE_BRANCHES_JSON="["
+          echo '${RELEASE_FEATURE_BRANCHES}'
+          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; do
+              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
+          done
+          MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
+          MATRIX_RELEASE_BRANCHES_JSON+="]"
+          MATRIX_JSON="{\"branches\": ${MATRIX_RELEASE_BRANCHES_JSON}}"
+          echo "${MATRIX_JSON}"
+          echo "::set-output name=matrix::${MATRIX_JSON}"
  pullRequestToReleaseBranches:
     needs: metadata
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        branch: [matrix]
+     matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '${{ matrix.branch }}'    
+          ref: '${{ matrix }}'    
 
       - name: Create report file
         run: date +%s > report.txt
