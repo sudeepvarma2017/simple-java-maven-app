@@ -22,11 +22,18 @@ jobs:
           MATRIX_RELEASE_BRANCHES_JSON="["
           for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
           do
-              release_branch=${BRANCHES};
-              echo "Release branch is in for loop" $release_branch
-              some_variable=$( echo "$release_branch" | sed -e 's#remotes/origin/$##' )
-              echo "After stripping remotes/origin current for in " ${some_variable}
-              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${some_variable}")
+              - name: Name of branch
+                 id: branch
+                 uses: ashley-taylor/regex-property-action@v1.2
+                 with:
+                  value: ${{ github.ref }}
+                  regex: ".*/"
+                  flags: "" # Optional, defaults to "g"
+                  replacement: ""
+               - name: branch
+                 run: BRANCHES=${{ steps.branch.outputs.value }}
+                 
+              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
           done
           MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_RELEASE_BRANCHES_JSON+="]"
@@ -38,36 +45,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
-    steps:   
-      - name: Fetch the branch 
-        run: |
-        
-            branch_name=${{ matrix.branches }};
-            result = Regex.Replace(branch_name, @"!(.*)?\(");
-            echo $result;
-            git fetch origin result
-            
-      - uses: actions/checkout@v2
-        with:
+    steps:               
+     - uses: actions/checkout@v2
+       with:
           ref: '${{ matrix.branches }}'    
       
-      - name: Create report file
-        run: date +%s > report.txt
+     - name: Create report file
+       run: date +%s > report.txt
         
-      - name: Reset promotion branch
-        run: |
+     - name: Reset promotion branch
+       run: |
             git fetch origin master:master
             git reset --hard master
-      - name: Set output variables
-        id: vars
-        run: |
+     - name: Set output variables
+       id: vars
+       run: |
               echo "::set-output name=pr_title::Pr into Release Branch from Master after the release $(date +%d-%m-%Y)"
               echo "::set-output name=pr_body::This PR was auto-generated on $(date +%d-%m-%Y) \
                 by [create-pull-request](https://github.com/AAInternal/AMPS-API)."     
               echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
+     - name: Create Pull Request
+       uses: peter-evans/create-pull-request@v3
+       with:
             token: ${{ secrets.GITHUB_TOKEN }}
             commit-message:  ${{ steps.vars.outputs.pr_commit_message }}
             committer: GitHub <noreply@github.com> 
