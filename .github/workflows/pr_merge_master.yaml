@@ -6,7 +6,7 @@ jobs:
  metadata: 
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      matrix: ${{ steps.generate-matrix.outputs.RELEASE_FEATURE_BRANCHES }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,16 +15,17 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          t=`git branch -a --list '*RC*'`;          
-          for branch in $t; do
+          RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC*'`;          
+          for branch in $RELEASE_FEATURE_BRANCHES; do
             echo 'Current Development Release branches are - ' $branch
-          done 
-          
+          done    
+          echo "::set-output name=matrix::${RELEASE_FEATURE_BRANCHES}"
  pullRequestToReleaseBranches:
+    needs: metadata
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branch: [RC12_1_Under_Development, RC12_2_Under_Development]
+        branch: [matrix]
     steps:
       - uses: actions/checkout@v2
         with:
