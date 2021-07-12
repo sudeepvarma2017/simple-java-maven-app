@@ -6,7 +6,7 @@ jobs:
  metadata: 
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.RELEASE_FEATURE_BRANCHES }}
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
