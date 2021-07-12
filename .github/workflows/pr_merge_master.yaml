@@ -33,11 +33,11 @@ jobs:
     needs: metadata
     runs-on: ubuntu-latest
     strategy:
-     matrix: ${{ fromJson(needs.metadata.outputs.matrix.branches) }}
+     matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '${{ matrix }}'    
+          ref: '${{ matrix.branches }}'    
 
       - name: Create report file
         run: date +%s > report.txt
