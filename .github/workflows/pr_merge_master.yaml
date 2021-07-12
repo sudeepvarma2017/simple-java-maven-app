@@ -33,7 +33,7 @@ jobs:
     needs: metadata
     runs-on: ubuntu-latest
     strategy:
-     matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+     matrix: ${{ fromJson(needs.metadata.outputs.matrix.branches) }}
     steps:
       - uses: actions/checkout@v2
         with:
