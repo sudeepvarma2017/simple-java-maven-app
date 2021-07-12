@@ -14,8 +14,8 @@ jobs:
         id: generate-matrix  
         run: |
           branches=()
-          eval "$(git branch -a --list '*feature/*')"
-          for branch in "${branches[@]}"; do
+          eval "$(git branch -a --list '*RC*')"
+          for branch in "${git branch -a --list '*RC*'}"; do
             echo $branch
           done 
           RELEASE_FEATURE_BRANCHES=$(git for-each-ref --format='%(refname:short)' refs/heads/feature/)
