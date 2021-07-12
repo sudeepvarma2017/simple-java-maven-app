@@ -18,22 +18,21 @@ jobs:
           RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC*'`;          
           for branch in $RELEASE_FEATURE_BRANCHES; do
             echo 'Current Development Release branches are - ' $branch
-          done    
-          MATRIX_RELEASE_BRANCHES_JSON="["
-          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
-          do
-              - name: Name of branch
+             - name: Name of branch
                  id: branch
                  uses: ashley-taylor/regex-property-action@v1.2
                  with:
-                  value: ${{ github.ref }}
+                  value: $branch
                   regex: ".*/"
                   flags: "" # Optional, defaults to "g"
                   replacement: ""
                - name: branch
-                 run: BRANCHES=${{ steps.branch.outputs.value }}
-                 
-              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
+                 run: echo "${{ steps.branch.outputs.value }}"
+          done    
+          MATRIX_RELEASE_BRANCHES_JSON="["
+          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
+          do
+             MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
           done
           MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_RELEASE_BRANCHES_JSON+="]"
