@@ -27,7 +27,7 @@ jobs:
              echo "Release branch is in for loop" $release_branch
              some_variable=$(sed -e 's#^remotes/origin/##' <<< "${BRANCHES}" )
              echo "After stripping remotes/origin current for in " ${some_variable}
-             MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
+             MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${some_variable}")
           done
           MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_RELEASE_BRANCHES_JSON+="]"
