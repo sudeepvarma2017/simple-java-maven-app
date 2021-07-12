@@ -15,7 +15,8 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC*'`;          
+          RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC_*_Under*'`;     
+          RELEASE_FEATURE_BRANCHES+=`git branch -a --list '*feature/azure*`;
           for branch in $RELEASE_FEATURE_BRANCHES; 
           do
             echo 'Current Development Release branches are - ' $branch
