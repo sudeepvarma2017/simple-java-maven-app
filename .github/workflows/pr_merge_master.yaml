@@ -3,7 +3,23 @@ on:
     branches:
       - 'master'
 jobs:
-   createPullRequest:
+ metadata: 
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: generate matrix
+        id: generate-matrix  
+        run: |
+          RELEASE_FEATURE_BRANCHES=$(git branch -a --list '*RC12*')
+          MATRIX_PROJECTS_JSON="["
+          echo ${RELEASE_FEATURE_BRANCHES}      
+
+ createPullRequest:
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
