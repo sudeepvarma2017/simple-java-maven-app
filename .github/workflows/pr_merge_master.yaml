@@ -17,7 +17,7 @@ jobs:
           git fetch --all
           t=`git branch -a --list '*RC*'`;          
           for branch in $t; do
-            echo $branch
+            echo 'Current Development Release branches are - ' $branch
           done 
           
  pullRequestToReleaseBranches:
