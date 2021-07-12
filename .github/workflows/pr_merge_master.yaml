@@ -15,8 +15,10 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          t=`git branch -a --list '*RC*'`;
-          echo 'Current RC Branches --  '$t              
+          t=`git branch -a --list '*RC*'`;          
+          for branch in $t; do
+            echo $branch
+          done 
           
  pullRequestToReleaseBranches:
     runs-on: ubuntu-latest
