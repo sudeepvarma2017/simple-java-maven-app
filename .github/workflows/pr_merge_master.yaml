@@ -34,11 +34,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
-    steps:
+    steps:   
+      - name: Fetch the branch 
+        run: |
+            git fetch --all
+            
       - uses: actions/checkout@v2
         with:
           ref: '${{ matrix.branches }}'    
-
+      
       - name: Create report file
         run: date +%s > report.txt
         
