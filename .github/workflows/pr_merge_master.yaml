@@ -37,7 +37,7 @@ jobs:
     steps:   
       - name: Fetch the branch 
         run: |
-            git fetch --all
+            git fetch '${{ matrix.branches }}'
             
       - uses: actions/checkout@v2
         with:
