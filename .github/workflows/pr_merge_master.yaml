@@ -13,8 +13,8 @@ jobs:
       - name: generate matrix
         id: generate-matrix  
         run: |
-          echo ls -ltr;
-          echo  `git branch -a --list '*RC*'`;
+          ls -ltr;
+          `git branch -a --list '*RC*'`;
           for br in `git branch -a --list '*RC*'`;
           do
            echo "All release branches under development "  ${br}         
