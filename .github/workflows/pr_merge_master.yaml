@@ -16,18 +16,7 @@ jobs:
           for br in `git branch -a --list '*RC*'`;
           do
            echo "All release branches under development "  ${br}         
-          done
-          RELEASE_FEATURE_BRANCHES=$(git branch -a --list '*RC*')
-          MATRIX_RELEASE_BRANCHES_JSON="["
-          echo '${RELEASE_FEATURE_BRANCHES}'
-          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; do
-              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
-          done
-          MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
-          MATRIX_RELEASE_BRANCHES_JSON+="]"
-          MATRIX_JSON="{\"branches\": ${MATRIX_RELEASE_BRANCHES_JSON}}"
-          echo "${MATRIX_JSON}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"
+          done         
           
  pullRequestToReleaseBranches:
     runs-on: ubuntu-latest
