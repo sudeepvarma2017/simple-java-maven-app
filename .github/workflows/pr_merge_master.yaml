@@ -16,8 +16,16 @@ jobs:
         id: generate-matrix  
         run: |
           RELEASE_FEATURE_BRANCHES=$(git branch -a --list '*RC12*')
-          MATRIX_PROJECTS_JSON="["
+          MATRIX_RELEASE_BRANCHES_JSON="["
           echo ${RELEASE_FEATURE_BRANCHES}
+          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; do
+              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
+          done
+          MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          MATRIX_RELEASE_BRANCHES_JSON+="]"
+          MATRIX_JSON="{\"branches\": ${MATRIX_RELEASE_BRANCHES_JSON}}"
+          echo "${MATRIX_JSON}"
+          echo "::set-output name=matrix::${MATRIX_JSON}"
           
  pullRequestToReleaseBranches:
     runs-on: ubuntu-latest
