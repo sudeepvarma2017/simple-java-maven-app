@@ -16,22 +16,17 @@ jobs:
           ls -ltr;
           git fetch --all
           RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC*'`;          
-          for branch in $RELEASE_FEATURE_BRANCHES; do
+          for branch in $RELEASE_FEATURE_BRANCHES; 
+          do
             echo 'Current Development Release branches are - ' $branch
-             - name: Name of branch
-                 id: branch
-                 uses: ashley-taylor/regex-property-action@v1.2
-                 with:
-                  value: $branch
-                  regex: ".*/"
-                  flags: "" # Optional, defaults to "g"
-                  replacement: ""
-               - name: branch
-                 run: echo "${{ steps.branch.outputs.value }}"
           done    
           MATRIX_RELEASE_BRANCHES_JSON="["
           for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
           do
+             release_branch=${BRANCHES};
+             echo "Release branch is in for loop" $release_branch
+             some_variable=$(release_branch | sed -e 's#^remotes/origin/##)
+             echo "After stripping remotes/origin current for in " ${some_variable}
              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
           done
           MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
