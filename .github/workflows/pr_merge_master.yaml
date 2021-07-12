@@ -16,7 +16,7 @@ jobs:
         id: generate-matrix  
         run: |
           branches=()
-          eval "$(git for-each-ref --shell --format='branches+=(%(refname))' refs/heads/)"
+          eval "$(git branch -a --list '*feature/*')"
           for branch in "${branches[@]}"; do
             echo $branch
           done 
