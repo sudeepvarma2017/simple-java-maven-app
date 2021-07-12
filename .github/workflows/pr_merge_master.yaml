@@ -21,7 +21,7 @@ jobs:
           for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; do
               MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${BRANCHES}")
           done
-          MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          MATRIX_RELEASE_BRANCHES_JSON="${MATRIX_RELEASE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_RELEASE_BRANCHES_JSON+="]"
           MATRIX_JSON="{\"branches\": ${MATRIX_RELEASE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
