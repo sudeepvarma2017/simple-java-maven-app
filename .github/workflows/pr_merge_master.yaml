@@ -15,13 +15,21 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          RELEASE_FEATURE_BRANCHES=`git branch -a --list '*RC*'`;          
-          for branch in $RELEASE_FEATURE_BRANCHES; 
+          RELEASE_BRANCHES==`git branch -a --list '*RC*'`;     
+          FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;
+          
+          for index in ${!RELEASE_BRANCHES[@]}; 
+          do  # Also, quote indices
+           RELEASE_FEATURE_BRANCHES+=( "${RELEASE_BRANCHES[$index]}" "${FEATURE_BRANCHES[$index]}" )
+          done
+          echo 'After combining Release and Feature Branches --- ' ${RELEASE_FEATURE_BRANCHES[@]}         
+          
+          for branch in ${RELEASE_FEATURE_BRANCHES[@]}; 
           do
             echo 'Current Development Release branches are - ' $branch
           done    
           MATRIX_RELEASE_BRANCHES_JSON="["
-          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
+          for BRANCHES in ${RELEASE_FEATURE_BRANCHES[@]} 
           do
              release_branch=${BRANCHES};
              echo "Release branch is in for loop" $release_branch
