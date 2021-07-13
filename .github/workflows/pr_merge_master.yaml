@@ -15,7 +15,7 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all
-          RELEASE_BRANCHES==`git branch -a --list '*RC*'`;     
+          RELEASE_BRANCHES=`git branch -a --list '*RC*'`;     
           FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;
           
           for index in ${!RELEASE_BRANCHES[@]}; 
