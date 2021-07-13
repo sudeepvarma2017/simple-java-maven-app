@@ -17,14 +17,9 @@ jobs:
           git fetch --all
           RELEASE_BRANCHES==`git branch -a --list '*RC*'`;     
           FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;
-          declare -a result
-          resultIndex=0
-          for index in ${!RELEASE_BRANCHES[*]}; 
-          do
-            result[$resultIndex]=${RELEASE_BRANCHES[$index]} 
-            let "resultIndex++"
-          result[$resultIndex]=${FEATURE_BRANCHES[$index]} 
-          let "resultIndex++"
+          for index in "${!RELEASE_BRANCHES[@]}"; 
+          do  # Also, quote indices
+           result+=( "${RELEASE_BRANCHES[$index]}" "${FEATURE_BRANCHES[$index]}" )
           done
           echo "${result[@]}"
           RELEASE_FEATURE_BRANCHES = "${RELEASE_BRANCHES[@]}" "${FEATURE_BRANCHES[@]}";
