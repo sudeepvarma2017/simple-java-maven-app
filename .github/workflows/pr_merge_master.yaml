@@ -1,4 +1,4 @@
-# This is a workflow that gets triggered when we merge release/feature branches into Master
+# This is a workflow that gets triggered when we merge release/feature branches into Master and Auto PR into all the Release/Feature Branches
 on:
   push:
     branches:
