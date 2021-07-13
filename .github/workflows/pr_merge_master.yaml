@@ -17,11 +17,14 @@ jobs:
           git fetch --all
           RELEASE_BRANCHES==`git branch -a --list '*RC*'`;     
           FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;
-          for index in "${!RELEASE_BRANCHES[@]}"; 
+          
+          for index in ${!RELEASE_BRANCHES[@]}; 
           do  # Also, quote indices
            result+=( "${RELEASE_BRANCHES[$index]}" "${FEATURE_BRANCHES[$index]}" )
           done
-          echo "${result[@]}"
+          echo 'After combining 2 arrays --- ' ${result[@]}
+          
+          
           RELEASE_FEATURE_BRANCHES = "${RELEASE_BRANCHES[@]}" "${FEATURE_BRANCHES[@]}";
           for branch in $RELEASE_FEATURE_BRANCHES; 
           do
