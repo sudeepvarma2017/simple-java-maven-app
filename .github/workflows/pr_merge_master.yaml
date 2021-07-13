@@ -20,12 +20,10 @@ jobs:
           
           for index in ${!RELEASE_BRANCHES[@]}; 
           do  # Also, quote indices
-           result+=( "${RELEASE_BRANCHES[$index]}" "${FEATURE_BRANCHES[$index]}" )
+           RELEASE_FEATURE_BRANCHES+=( "${RELEASE_BRANCHES[$index]}" "${FEATURE_BRANCHES[$index]}" )
           done
-          echo 'After combining 2 arrays --- ' ${result[@]}
+          echo 'After combining Release and Feature Branches --- ' ${RELEASE_FEATURE_BRANCHES[@]}         
           
-          
-          RELEASE_FEATURE_BRANCHES = "${RELEASE_BRANCHES[@]}" "${FEATURE_BRANCHES[@]}";
           for branch in $RELEASE_FEATURE_BRANCHES; 
           do
             echo 'Current Development Release branches are - ' $branch
