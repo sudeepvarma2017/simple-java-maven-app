@@ -24,12 +24,12 @@ jobs:
           done
           echo 'After combining Release and Feature Branches --- ' ${RELEASE_FEATURE_BRANCHES[@]}         
           
-          for branch in $RELEASE_FEATURE_BRANCHES; 
+          for branch in ${RELEASE_FEATURE_BRANCHES[@]}; 
           do
             echo 'Current Development Release branches are - ' $branch
           done    
           MATRIX_RELEASE_BRANCHES_JSON="["
-          for BRANCHES in ${RELEASE_FEATURE_BRANCHES}; 
+          for BRANCHES in ${RELEASE_FEATURE_BRANCHES[@]} 
           do
              release_branch=${BRANCHES};
              echo "Release branch is in for loop" $release_branch
