@@ -84,8 +84,8 @@ jobs:
             body: ${{ steps.vars.outputs.pr_body }}
             title: ${{ steps.vars.outputs.pr_title }}
             labels: automated pr
-            assignees: Sudeep.kumar.varma.Ganapathiraju@aa.com
-            reviewers: Preetish.Madalia@aa.com,Naseer.Mohammed.abdul@aa.com,Sudeep.kumar.varma.Ganapathiraju@aa.com        
+            reviewers: Preetish.Madalia@aa.com,Naseer.Mohammed.abdul@aa.com,Sudeep.kumar.varma.Ganapathiraju@aa.com
+            team-reviewers : DL_TechOps_Knights@aa.com
             branch: 'master_promotion_${{ matrix.branches }}'
           
     
