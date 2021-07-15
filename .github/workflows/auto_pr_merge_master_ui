@@ -13,10 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: generate matrix
         id: generate-matrix  
-        # 1.List all the directories (optional)
-        # 2.Fetch all the git branches before we carry out branch operations or subsequent git operation would fail
-        # 3.Strip origin/remote as the GitHub action to generate auto pr automatically appends origin/remote
-        # 4.Generate matrix in the json format containing all the matched branches
+        
         run: |
           ls -ltr;
           git fetch --all 
