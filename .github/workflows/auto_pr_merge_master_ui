@@ -20,7 +20,7 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all 
-          FEATURE_BRANCHES=`git branch -a --list 'feature/*'`;              
+          FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;              
          ## for branch in ${FEATURE_BRANCHES[@]}; 
          ## do
          ##  echo 'Current Development Feature branches are - ' $branch
