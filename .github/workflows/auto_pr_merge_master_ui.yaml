@@ -18,12 +18,6 @@ jobs:
           ls -ltr;
           git fetch --all 
           FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;             
-          
-          for branch in ${FEATURE_BRANCHES[@]}; 
-           do
-           echo 'Current Development Feature branches are - ' $branch
-          done    
-           
           MATRIX_FEATURE_BRANCHES_JSON="["
           for BRANCHES in ${FEATURE_BRANCHES[@]} 
           do
