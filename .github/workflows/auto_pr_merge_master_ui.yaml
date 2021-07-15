@@ -4,7 +4,7 @@ on:
     branches:
       - 'main' # Only Master 
 jobs:
- metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition. A job matrix can generate a maximum of 256 jobs per workflow run
+ metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition.A job matrix can generate a maximum of 256 jobs per workflow run
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }} #key-value pair containg feature,release branches 
