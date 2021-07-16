@@ -2,7 +2,7 @@
 on:
   push:
     branches:
-      - 'main' # Only Master 
+      - 'master' # Only Master 
 jobs:
  metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition.A job matrix can generate a maximum of 256 jobs per workflow run
     runs-on: ubuntu-latest
@@ -17,7 +17,7 @@ jobs:
         run: |
           ls -ltr;
           git fetch --all 
-          FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;             
+          FEATURE_BRANCHES=`git branch -a --list '*feature/**'`;             
           MATRIX_FEATURE_BRANCHES_JSON="["
           for BRANCHES in ${FEATURE_BRANCHES[@]} 
           do
@@ -25,7 +25,7 @@ jobs:
              echo "Feature branch is in for loop" $feature_branch
              branch_variable=$(sed -e 's#^remotes/origin/##' <<< "${BRANCHES}" )
              echo "After stripping remotes/origin current for in " ${branch_variable}
-             MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${branch_variable}")
+             MATRIX_FEATURE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${branch_variable}")
           done
           MATRIX_FEATURE_BRANCHES_JSON="${MATRIX_FEATURE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_FEATURE_BRANCHES_JSON+="]"
@@ -33,12 +33,15 @@ jobs:
           echo "${MATRIX_JSON}"
           echo "::set-output name=matrix::${MATRIX_JSON}"
           echo "Test Sudeep"
+          
  ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     needs: metadata
     runs-on: ubuntu-latest
     strategy:
+     fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    if: needs.metadata.outputs.matrix.branches[0] != null && ${{ fromJson(needs.metadata.outputs.matrix).include[0] }} 
     steps:               
      - uses: actions/checkout@v2
        with:
