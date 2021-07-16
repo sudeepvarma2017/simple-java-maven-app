@@ -41,7 +41,8 @@ jobs:
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
-    if: needs.metadata.outputs.matrix.branches && needs.metadata.outputs.matrix.branches != '' && needs.metadata.outputs.matrix.branches != 'empty' 
+    if: needs.metadata.outputs.matrix.branches && needs.metadata.outputs.matrix.branches != '' && needs.metadata.outputs.matrix.branches != 'empty'  then
+        echo "Feature Branches not found "
     steps:               
      - uses: actions/checkout@v2
        with:
