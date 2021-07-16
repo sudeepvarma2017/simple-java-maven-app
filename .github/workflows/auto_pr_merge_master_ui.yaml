@@ -41,7 +41,7 @@ jobs:
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
-    if: needs.metadata.outputs.matrix.branches && needs.metadata.outputs.matrix.branches != ''  
+    if: needs.metadata.outputs.matrix.branches[0] != null && ${{ fromJson(needs.metadata.outputs.matrix).include[0] }} 
     steps:               
      - uses: actions/checkout@v2
        with:
