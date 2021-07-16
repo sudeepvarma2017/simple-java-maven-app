@@ -38,10 +38,10 @@ jobs:
  pullRequestToReleaseBranches:
     needs: metadata
     runs-on: ubuntu-latest
-    if: needs.metadata.outputs.matrix && needs.metadata.outputs.matrix != '' && needs.metadata.outputs.matrix != 'empty' 
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    if: needs.metadata.outputs.matrix.branches && needs.metadata.outputs.matrix.branches != '' && needs.metadata.outputs.matrix.branches != 'empty' 
     steps:               
      - uses: actions/checkout@v2
        with:
