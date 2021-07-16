@@ -59,8 +59,7 @@ jobs:
               echo "::set-output name=pr_title::Pr into Release/Feature Branch ${{ matrix.branches }} from Master after the release $(date +%d-%m-%Y)"
               echo "::set-output name=pr_body::This PR was auto-generated on $(date +%d-%m-%Y) \
                 by [create-pull-request](https://github.com/AAInternal/AMPS-API)."     
-              echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"
-              
+              echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"              
      ## Create an Auto PR using the GitHub action from peter-evans         
      - name: Create Pull Request
        uses: peter-evans/create-pull-request@v3
