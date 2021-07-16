@@ -2,9 +2,9 @@
 on:
   push:
     branches:
-      - 'master' # Only Master 
+      - 'main' # Only Master 
 jobs:
- metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition. A job matrix can generate a maximum of 256 jobs per workflow run
+ metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition.A job matrix can generate a maximum of 256 jobs per workflow run
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }} #key-value pair containg feature,release branches 
@@ -13,25 +13,16 @@ jobs:
         uses: actions/checkout@v2
       - name: generate matrix
         id: generate-matrix  
-        # 1.List all the directories (optional)
-        # 2.Fetch all the git branches before we carry out branch operations or subsequent git operation would fail
-        # 3.Strip origin/remote as the GitHub action to generate auto pr automatically appends origin/remote
-        # 4.Generate matrix in the json format containing all the matched branches
+        
         run: |
           ls -ltr;
           git fetch --all 
           FEATURE_BRANCHES=`git branch -a --list '*feature/*'`;             
-          
-         ## for branch in ${FEATURE_BRANCHES[@]}; 
-         ## do
-         ##  echo 'Current Development Feature branches are - ' $branch
-         ## done    
-           
           MATRIX_FEATURE_BRANCHES_JSON="["
           for BRANCHES in ${FEATURE_BRANCHES[@]} 
           do
              feature_branch=${BRANCHES};
-             ## echo "Feature branch is in for loop" $feature_branch
+             echo "Feature branch is in for loop" $feature_branch
              branch_variable=$(sed -e 's#^remotes/origin/##' <<< "${BRANCHES}" )
              echo "After stripping remotes/origin current for in " ${branch_variable}
              MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${branch_variable}")
@@ -41,6 +32,7 @@ jobs:
           MATRIX_JSON="{\"branches\": ${MATRIX_FEATURE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
           echo "::set-output name=matrix::${MATRIX_JSON}"
+          echo "Test Sudeep"
  ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     needs: metadata
@@ -66,6 +58,7 @@ jobs:
               echo "::set-output name=pr_body::This PR was auto-generated on $(date +%d-%m-%Y) \
                 by [create-pull-request](https://github.com/AAInternal/AMPS-API)."     
               echo "::set-output name=pr_commit_message::GitHub <noreply@github.com>"
+              
      ## Create an Auto PR using the GitHub action from peter-evans         
      - name: Create Pull Request
        uses: peter-evans/create-pull-request@v3
