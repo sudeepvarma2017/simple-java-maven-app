@@ -2,7 +2,7 @@
 on:
   push:
     branches:
-      - 'master' # Only Master 
+      - 'main' # Only Master 
 jobs:
  metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition. A job matrix can generate a maximum of 256 jobs per workflow run
     runs-on: ubuntu-latest
@@ -17,6 +17,7 @@ jobs:
         # 2.Fetch all the git branches before we carry out branch operations or subsequent git operation would fail
         # 3.Strip origin/remote as the GitHub action to generate auto pr automatically appends origin/remote
         # 4.Generate matrix in the json format containing all the matched branches
+        
         run: |
           ls -ltr;
           git fetch --all 
@@ -48,6 +49,7 @@ jobs:
           MATRIX_JSON="{\"branches\": ${MATRIX_RELEASE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
           echo "::set-output name=matrix::${MATRIX_JSON}"
+          echo "${MATRIX_JSON}"
  ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     needs: metadata
