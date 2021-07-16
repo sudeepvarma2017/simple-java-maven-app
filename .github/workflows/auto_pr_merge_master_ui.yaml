@@ -2,7 +2,7 @@
 on:
   push:
     branches:
-      - 'main' # Only Master 
+      - 'master' # Only Master 
 jobs:
  metadata: #  A matrix allows you to create multiple jobs by performing variable substitution in a single job definition.A job matrix can generate a maximum of 256 jobs per workflow run
     runs-on: ubuntu-latest
