@@ -43,7 +43,7 @@ jobs:
  pullRequestToReleaseBranches:
     needs: metadata
     runs-on: ubuntu-latest
-    if: needs.metadata.outputs.continue == 'yes'
+    if: needs.metadata.outputs.CONTINUE_AUTO_PR == 'yes'
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
