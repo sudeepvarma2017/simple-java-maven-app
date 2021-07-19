@@ -37,7 +37,8 @@ jobs:
             MATRIX_JSON="yes"
           fi
           echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"          
+          echo "::set-output name=matrix::${MATRIX_JSON}" 
+          echo "No of branches - ${CONTINUE_AUTO_PR}"
 ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     needs: metadata
