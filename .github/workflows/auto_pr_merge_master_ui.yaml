@@ -39,8 +39,7 @@ jobs:
      steps:
       - name: get size of matrix
         id: get-size 
-        run : |
-             echo "::set-output name=matrix::${MATRIX_JSON}"
+        run : |            
              matrixsize= $(echo $needs.metadata.outputs.matrix.branches | jq '.| length ')
              echo "::set-output name=matrix_size::${matrixsize}"
 ## Generate Auto PR to the all the branches listed in the matrix.         
@@ -82,8 +81,7 @@ jobs:
             body: ${{ steps.vars.outputs.pr_body }}
             title: ${{ steps.vars.outputs.pr_title }}
             labels: automated pr
-            reviewers: Preetish.Madalia@aa.com,Naseer.Mohammed.abdul@aa.com,Sudeep.kumar.varma.Ganapathiraju@aa.com
-            team-reviewers : DL_TechOps_Knights@aa.com
+            reviewers: Sudeep.kumar.varma.Ganapathiraju@aa.com            
             branch: 'master_promotion_${{ matrix.branches }}'
           
     
