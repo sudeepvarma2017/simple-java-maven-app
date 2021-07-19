@@ -33,8 +33,8 @@ jobs:
           MATRIX_JSON="{\"branches\": ${MATRIX_FEATURE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
           CONTINUE_AUTO_PR="no"
-          if [[ "${MATRIX_JSON}" != "[]" ]]; then
-            MATRIX_JSON="yes"
+          if [[ "${MATRIX_FEATURE_BRANCHES_JSON}" != "[]" ]]; then
+            CONTINUE_AUTO_PR="yes"
           fi
           echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
           echo "::set-output name=matrix::${MATRIX_JSON}" 
