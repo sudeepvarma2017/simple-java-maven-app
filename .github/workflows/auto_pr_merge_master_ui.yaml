@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }} #key-value pair containg feature,release branches 
+      continue: ${{ steps.generate-matrix.outputs.continue }} #conditional value to check for empty feature branches
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        
       - name: generate matrix
         id: generate-matrix  
         
@@ -31,17 +33,21 @@ jobs:
           MATRIX_FEATURE_BRANCHES_JSON+="]"
           MATRIX_JSON="{\"branches\": ${MATRIX_FEATURE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"
-          echo "Test Sudeep"
-          
- ## Generate Auto PR to the all the branches listed in the matrix.         
+          CONTINUE_AUTO_PR="no"
+          if [[ "${MATRIX_FEATURE_BRANCHES_JSON}" != "[]" ]]; then
+            CONTINUE_AUTO_PR="yes"
+          fi
+          echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
+          echo "::set-output name=matrix::${MATRIX_JSON}" 
+          echo "No of branches - ${CONTINUE_AUTO_PR}"
+## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
+    if: needs.metadata.outputs.continue == 'yes'
     needs: metadata
     runs-on: ubuntu-latest
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
-    if: needs.metadata.outputs.matrix.branches[0] != null && ${{ fromJson(needs.metadata.outputs.matrix).include[0] }} 
     steps:               
      - uses: actions/checkout@v2
        with:
@@ -73,8 +79,7 @@ jobs:
             body: ${{ steps.vars.outputs.pr_body }}
             title: ${{ steps.vars.outputs.pr_title }}
             labels: automated pr
-            reviewers: Preetish.Madalia@aa.com,Naseer.Mohammed.abdul@aa.com,Sudeep.kumar.varma.Ganapathiraju@aa.com
-            team-reviewers : DL_TechOps_Knights@aa.com
+            reviewers: Sudeep.kumar.varma.Ganapathiraju@aa.com            
             branch: 'master_promotion_${{ matrix.branches }}'
           
     
