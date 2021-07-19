@@ -39,7 +39,8 @@ jobs:
      steps:
       - name: get size of matrix
         id: get-size 
-        run : |            
+        run : |     
+             echo $needs.metadata.outputs.matrix.branches
              matrixsize= $(echo $needs.metadata.outputs.matrix.branches | jq '.| length ')
              echo "::set-output name=matrix_size::${matrixsize}"
 ## Generate Auto PR to the all the branches listed in the matrix.         
