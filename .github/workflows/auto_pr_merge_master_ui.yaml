@@ -39,7 +39,7 @@ jobs:
      runs-on: ubuntu-latest
      steps:
       - name: get size of matrix
-        id: get size of matrix 
+        id: get-size 
         run : |
              echo "::set-output name=matrix::${MATRIX_JSON}"
              matrixsize= $(echo $needs.metadata.outputs.matrix.branches | jq '.| length ')
