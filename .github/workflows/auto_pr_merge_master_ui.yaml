@@ -32,22 +32,17 @@ jobs:
           MATRIX_FEATURE_BRANCHES_JSON+="]"
           MATRIX_JSON="{\"branches\": ${MATRIX_FEATURE_BRANCHES_JSON}}"
           echo "${MATRIX_JSON}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"
- Job2:
-     runs-on: ubuntu-latest
-     needs: metadata
-     steps:
-      - name: get size of matrix
-        id: get-size 
-        run : |     
-             echo ${{ fromJson(needs.metadata.outputs.matrix.branches) }}
-             matrixsize= $(echo $needs.metadata.outputs.matrix.branches | jq '.| length ')
-             echo "::set-output name=matrix_size::${matrixsize}"
+          CONTINUE_AUTO_PR="no"
+          if [[ "${MATRIX_JSON}" != "[]" ]]; then
+            MATRIX_JSON="yes"
+          fi
+          echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
+          echo "::set-output name=matrix::${MATRIX_JSON}"          
 ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     needs: metadata
     runs-on: ubuntu-latest
-    if: needs.metadata.outputs.matrix.branches[0] != null && ${{ fromJson(needs.metadata.outputs.matrix).include[0] }} 
+    if: needs.metadata.outputs.continue == 'yes'
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
