@@ -27,7 +27,7 @@ jobs:
              echo "Feature branch is in for loop" $feature_branch
              branch_variable=$(sed -e 's#^remotes/origin/##' <<< "${BRANCHES}" )
              echo "After stripping remotes/origin current for in " ${branch_variable}
-             MATRIX_FEATURE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${branch_variable}")
+             MATRIX_RELEASE_BRANCHES_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${branch_variable}")
           done
           MATRIX_FEATURE_BRANCHES_JSON="${MATRIX_FEATURE_BRANCHES_JSON//\"\"/\", \"}"
           MATRIX_FEATURE_BRANCHES_JSON+="]"
