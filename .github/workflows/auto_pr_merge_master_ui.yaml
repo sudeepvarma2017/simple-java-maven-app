@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }} #key-value pair containg feature,release branches 
+      continue: ${{ steps.generate-matrix.outputs.continue }} #conditional value to check for empty feature branches
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,7 +39,7 @@ jobs:
           fi
           echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
           echo "::set-output name=matrix::${MATRIX_JSON}" 
-          echo "No of branches - ${continue}"
+          echo "No of branches - ${CONTINUE_AUTO_PR}"
 ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
     if: needs.metadata.outputs.continue == 'yes'
