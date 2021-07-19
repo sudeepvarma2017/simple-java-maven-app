@@ -38,12 +38,12 @@ jobs:
           fi
           echo "::set-output name=continue::${CONTINUE_AUTO_PR}"
           echo "::set-output name=matrix::${MATRIX_JSON}" 
-          echo "No of branches - ${CONTINUE_AUTO_PR}"
+          echo "No of branches - ${continue}"
 ## Generate Auto PR to the all the branches listed in the matrix.         
  pullRequestToReleaseBranches:
+    if: needs.metadata.outputs.continue == 'yes'
     needs: metadata
     runs-on: ubuntu-latest
-    if: needs.metadata.outputs.CONTINUE_AUTO_PR == 'yes'
     strategy:
      fail-fast: false
      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
